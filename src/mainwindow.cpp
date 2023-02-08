@@ -894,20 +894,20 @@ void MainWindow::SaveProject()
 
         QTextStream str( &hFile );
 
-        str << "PROJECT" << endl;
+        str << "PROJECT" << Qt::endl;
 
-        str << "SCREEN" << endl;
-        str << screenFile << endl;
+        str << "SCREEN" << Qt::endl;
+        str << screenFile << Qt::endl;
 
-        str << "TILES" << endl;
-        str << tilesFile << endl;
-        if( m_pScreen->GetOneBank() ) str << "ONEBANK" << endl;
-        else str << "ALLBANKS" << endl;
+        str << "TILES" << Qt::endl;
+        str << tilesFile << Qt::endl;
+        if( m_pScreen->GetOneBank() ) str << "ONEBANK" << Qt::endl;
+        else str << "ALLBANKS" << Qt::endl;
 
-        str << "PALETTE" << endl;
-        str << paletteFile << endl;
+        str << "PALETTE" << Qt::endl;
+        str << paletteFile << Qt::endl;
 
-        str << "END" << endl;
+        str << "END" << Qt::endl;
         hFile.flush();
         hFile.close();
     }

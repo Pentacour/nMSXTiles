@@ -371,13 +371,13 @@ bool CScreenW::SaveScreen( QString fileName ) {
     QTextStream str( &hFile );
     for( int y = 0; y < ui->m_pGrMapHeight->value(); y++ ) {
         for( int x = 0; x < ui->m_pGrMapWidth->value(); x++ ) {
-            str << "SCREEN-" << x << "-" << y << endl;
+            str << "SCREEN-" << x << "-" << y << Qt::endl;
             for( i = 0; i < 32*24; i++ )
-                str << m_Screen[x][y][i] << endl;
+                str << m_Screen[x][y][i] << Qt::endl;
         }
     }
-    str << "MAP WIDTH-HEIGHT" << endl;
-    str << ui->m_pGrMapWidth->value() << endl;
+    str << "MAP WIDTH-HEIGHT" << Qt::endl;
+    str << ui->m_pGrMapWidth->value() << Qt::endl;
     str << ui->m_pGrMapHeight->value();
     hFile.flush();
     hFile.close();
@@ -403,14 +403,14 @@ bool CScreenW::ExportScreenData( QString fileName, bool hexa, int initX, int ini
     for( mapY = 0; mapY < ui->m_pGrMapHeight->value(); mapY++ ) {
         for( mapX = 0; mapX < ui->m_pGrMapWidth->value(); mapX++ ) {
         // Cambiado:
-            str << endl << QString( "SCREEN_%1_%2:" ).arg( mapX ).arg( mapY ) << endl;
+            str << Qt::endl << QString( "SCREEN_%1_%2:" ).arg( mapX ).arg( mapY ) << Qt::endl;
             str << "\tDB ";
             for( y = initY; y < he; ) {
                 for( x = initX; x < wi; ) {
                     if( hexa ) str << QString( "0x%1" ).arg( m_Screen[mapX][mapY][y*32+x], 0, 16 ).rightJustified( 4, ' ' );
                     else str << QString( "%1" ).arg( m_Screen[mapX][mapY][y*32+x] ).rightJustified( 3, ' ' );
                     if( (y*32+x+1)%32 == 0 || x == ( wi - 1 ) ) {
-                        str << endl;
+                        str << Qt::endl;
                         if( (y*32+x+1) != 256*3 && !( y == (he-1) && x == (wi-1) )) str << "\tDB ";
                     } else if( !( x == (wi - 1) && y == (he - 1) ) ) str <<",";
                     x += addX;
@@ -419,7 +419,7 @@ bool CScreenW::ExportScreenData( QString fileName, bool hexa, int initX, int ini
             }
         }
     }
-    str << endl;
+    str << Qt::endl;
     hFile.flush();
     hFile.close();
     return true;
@@ -794,9 +794,9 @@ bool CScreenW::SavePalette(QString fileName) {
     hFile.setFileName( fileName );
     hFile.open( QIODevice::WriteOnly );
     QTextStream str( &hFile );
-    str << "PALETTE" << endl;
+    str << "PALETTE" << Qt::endl;
     for( int i = 0; i < 16; ++i ) {
-        str << COLORS_TABLE_SCREEN[i] << endl;
+        str << COLORS_TABLE_SCREEN[i] << Qt::endl;
     }
     hFile.flush();
     hFile.close();
@@ -811,11 +811,11 @@ bool CScreenW::ExportPaletteASM( QString fileName ) {
     QColor color;
     QString s;
     uint r, g, b;
-    str << "PALETTE:" << endl;
-    str << "; --------------------------------------------------------" << endl;
-    str << ";    [0~15] Decimal [0~7]      Binary VDP      Hexadecimal" << endl;
-    str << ";   DB    NN, R, B, G    ; 0RRR0BBB 00000GGG ; 0xAARRGGBB " << endl;
-    str << "; --------------------------------------------------------" << endl;
+    str << "PALETTE:" << Qt::endl;
+    str << "; --------------------------------------------------------" << Qt::endl;
+    str << ";    [0~15] Decimal [0~7]      Binary VDP      Hexadecimal" << Qt::endl;
+    str << ";   DB    NN, R, B, G    ; 0RRR0BBB 00000GGG ; 0xAARRGGBB " << Qt::endl;
+    str << "; --------------------------------------------------------" << Qt::endl;
     for( int i = 0; i < 16; ++i ) {
         int j = ( i < 15 ) ? i + 1 : 0 ;
         color.setRgb( QRgb( COLORS_TABLE_SCREEN[j] ) );
@@ -832,7 +832,7 @@ bool CScreenW::ExportPaletteASM( QString fileName ) {
         // Hexadecimal:
         s += QString( "0x%1" ).arg( color.rgb(), 8, 16, QChar( '0' ) ).toUpper();
         // print
-        str << s << endl;
+        str << s << Qt::endl;
     }
     hFile.flush();
     hFile.close();
@@ -847,10 +847,10 @@ bool CScreenW::ExportPaletteVDP( QString fileName ) {
     QColor color;
     QString s;
     uint r, g, b;
-    str << "; ----------------------------------------------" << endl;
-    str << ";    [0~15]         Binary           Hexadecimal" << endl;
-    str << "; ColorNN:    0RRR0BBB 00000GGG    ; 0xAARRGGBB " << endl;
-    str << "; ----------------------------------------------" << endl;
+    str << "; ----------------------------------------------" << Qt::endl;
+    str << ";    [0~15]         Binary           Hexadecimal" << Qt::endl;
+    str << "; ColorNN:    0RRR0BBB 00000GGG    ; 0xAARRGGBB " << Qt::endl;
+    str << "; ----------------------------------------------" << Qt::endl;
     for( int i = 0; i < 16; ++i ) {
         color.setRgb( QRgb( COLORS_TABLE_SCREEN[i] ) );
         r = CSupportFuncs::Convert_8bit_to_3bit( color.red() );
@@ -861,7 +861,7 @@ bool CScreenW::ExportPaletteVDP( QString fileName ) {
         s += QString( "0%1 " ).arg( b, 3, 2, QChar('0') );
         s += QString( "00000%1    " ).arg( g, 3, 2, QChar('0') );
         s += QString( "; 0x%1" ).arg( color.rgb(), 8, 16, QChar('0') ).toUpper();
-        str << s << endl;
+        str << s << Qt::endl;
     }
     hFile.flush();
     hFile.close();
@@ -979,15 +979,15 @@ bool CScreenW::SaveTiles( QString fileName ) {
     hFile.setFileName( fileName );
     hFile.open( QIODevice::WriteOnly );
     QTextStream str( &hFile );
-    str << "TILES" << endl;
+    str << "TILES" << Qt::endl;
     int nLoops = ( GetOneBank() ) ? 1 : 3;
     for( b = 0; b < nLoops; b++ ) {
-        str << "BANK" << b << endl;
+        str << "BANK" << b << Qt::endl;
         for( i = 0; i < 256; i++ ) {
-            for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetBgColor(x) << endl;
-            for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetForeColor(x) << endl;
+            for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetBgColor(x) << Qt::endl;
+            for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetForeColor(x) << Qt::endl;
             for( y = 0; y < 8; y++ ) {
-                for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetPixel( x, y ) << endl;
+                for( x = 0; x < 8; x++ ) str<<m_TilesBank[i][b].GetPixel( x, y ) << Qt::endl;
             }
         }
     }
@@ -1005,7 +1005,7 @@ bool CScreenW::ExportTilesData( QString fileName, bool hexa ) {
     QTextStream str( &hFile );
     int nLoops = ( GetOneBank() ) ? 1 : 3;
     for( b = 0; b < nLoops; b++ ) {
-        str<<QString( "BANK_PATTERN_%1:").arg( b ) << endl;
+        str<<QString( "BANK_PATTERN_%1:").arg( b ) << Qt::endl;
         for( j = 0; j < 256; j++ ) {
             str << "\tDB ";
             for( i = 0; i < 8; i++ ) {
@@ -1013,12 +1013,12 @@ bool CScreenW::ExportTilesData( QString fileName, bool hexa ) {
                 else str << m_TilesBank[j][b].GetRowPattern( i );
                 if( i != 7 ) str<<", ";
             }
-            str <<endl;
+            str <<Qt::endl;
         }
     }
-    str << endl << endl;
+    str << Qt::endl << Qt::endl;
     for( b = 0; b < nLoops; b++ ) {
-        str<<QString( "BANK_COLOR_%1:").arg( b ) << endl;
+        str<<QString( "BANK_COLOR_%1:").arg( b ) << Qt::endl;
         for( j = 0; j < 256; j++ ) {
             str << "\tDB ";
             for( i = 0; i < 8; i++ ) {
@@ -1027,7 +1027,7 @@ bool CScreenW::ExportTilesData( QString fileName, bool hexa ) {
 
                 if( i != 7 ) str <<", ";
             }
-            str << endl;
+            str << Qt::endl;
         }
     }
     hFile.flush();
@@ -1757,7 +1757,7 @@ void CScreenW::UpdateBank( int tile, int bank, bool updateScreen ) {
 
 void CScreenW::InitBanks() {
     for( int j = 0; j < 3; j++ ) {
-		m_BankImages[j] = m_pLblBank[j]->pixmap()->toImage();
+        m_BankImages[j] = m_pLblBank[j]->pixmap().toImage();
 		PaintGrid( &m_BankImages[j], 16, 16 );
         for( int i = 0; i < 256; i++ ) {
 			PaintTile( &m_BankImages[j], m_TilesBank[i][j], (i%32)*18+1, (i/32)*18+1, 2 );

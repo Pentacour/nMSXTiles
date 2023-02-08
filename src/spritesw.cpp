@@ -224,18 +224,18 @@ bool CSpritesW::SaveSprites( QString fileName )
 
 	QTextStream str( &hFile );
 	
-	str<<"SPRITES"<<endl;
+    str<<"SPRITES"<<Qt::endl;
 	
 	for( s = 0; s < 4; s++ )
 	{
-		str<<"SET"<<s<<endl;
+        str<<"SET"<<s<<Qt::endl;
 		
 		for( t = 0; t < 4; t++ )
 		{
-			str<<"SPRITE"<<t<<endl;
-			str<<m_Sprites.at( s )->GetColor( t )<<endl;
+            str<<"SPRITE"<<t<<Qt::endl;
+            str<<m_Sprites.at( s )->GetColor( t )<<Qt::endl;
 
-			for( i = 0; i < 16*16; i++ ) str<<m_Sprites.at( s )->GetValue( t, i )<<endl;
+            for( i = 0; i < 16*16; i++ ) str<<m_Sprites.at( s )->GetValue( t, i )<<Qt::endl;
 		}
 	}
 	
@@ -261,12 +261,12 @@ bool CSpritesW::ExportSprites( QString fileName )
 	
 	for( s = 0; s < 4; s++ )
 	{
-		str<<"****SET"<<(s+1)<<"****"<<endl;
+        str<<"****SET"<<(s+1)<<"****"<<Qt::endl;
 		
 		for( t = 0; t < 4; t++ )
 		{
-			str<<"SPRITE"<<t<<endl;
-			str<<"Color: "<<m_Sprites.at( s )->GetColor( t )<<endl;
+            str<<"SPRITE"<<t<<Qt::endl;
+            str<<"Color: "<<m_Sprites.at( s )->GetColor( t )<<Qt::endl;
 			
 			for( j = 0; j < 4; j++ )
 			{
@@ -290,7 +290,7 @@ bool CSpritesW::ExportSprites( QString fileName )
 					str<<value;
 					if( y != 7 ) str<<", ";
 				}
-				str<<endl;
+                str<<Qt::endl;
  			}
 
 		}
@@ -391,7 +391,7 @@ void CSpritesW::UpdateDesigner( int set, int sprite )
 	QImage image;
 
 	
-    image = m_pLblSprites->pixmap()->toImage();
+    image = m_pLblSprites->pixmap().toImage();
 
     CSupportFuncs::SetPixelRect( &image, 0, 0, BG_COLOR, 96*2, 96*2 );
     //
@@ -400,7 +400,7 @@ void CSpritesW::UpdateDesigner( int set, int sprite )
 	
 	m_pLblSprites->put_Image( image );
 	
-	image = m_pLblViews[set]->pixmap()->toImage();
+    image = m_pLblViews[set]->pixmap().toImage();
 	
 	for( i = 0; i < 256; i++ ) UpdatePreview( set, sprite, i, false, &image );
 	
@@ -416,7 +416,7 @@ void CSpritesW::UpdateDesigner( int set, int sprite, int index, bool paintIsZ, Q
 	
 	if( !pImage )
 	{
-		image = m_pLblSprites->pixmap()->toImage();
+        image = m_pLblSprites->pixmap().toImage();
 		pTmp = &image;
 	}
 	else pTmp = pImage;
@@ -472,7 +472,7 @@ void CSpritesW::UpdatePreview( int set, int sprite, int index, bool paintIsZ, QI
 
 	if( !pImage )
 	{
-		image = m_pLblViews[set]->pixmap()->toImage();
+        image = m_pLblViews[set]->pixmap().toImage();
 		pTmp = &image;
 	}
 	else pTmp = pImage;	
